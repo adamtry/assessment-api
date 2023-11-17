@@ -9,4 +9,5 @@ local_db:
 	docker-compose up sample-database
 
 test:
+	# Requires local db to be running for gateway tests
 	${PYTHON_PATH}/python -m pytest

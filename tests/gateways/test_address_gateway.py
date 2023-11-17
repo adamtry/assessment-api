@@ -1,13 +1,26 @@
-from src.boundary.hackney_address_response import HackneyAddressResponse
-from src.domain.hackney_address import HackneyAddress
-from src.gateways.interfaces.i_address_gateway import IAddressGateway
-from src.use_cases.get_addresses_use_case import GetAddressesUseCase
+from dataclasses import asdict
+
+import pytest
+
+from src.entities import hackney_address_entity as sql_schema
 from faker import Faker
-from unittest.mock import Mock
+
+from src.gateways.address_gateway import AddressGateway
+import psycopg2
 
 
-faker = Faker()
-MOCK_ADDRESS = HackneyAddress(
+@pytest.fixture
+def connection_string():
+    _username, _password, _host, _port = ("postgres", "mypassword", "localhost", 5432)
+    return f"postgresql://{_username}:{_password}@{_host}:{_port}/postgres"
+
+
+@pytest.fixture
+def address():
+    faker = Faker()
+    """Address entity fixture with fake data"""
+    # TODO: Use autofixture equivalent to generate fake data
+    return sql_schema.HackneyAddressEntity(
             lpi_key=faker.pystr(),
             lpi_logical_status=faker.pystr(),
             lpi_start_date=faker.pyint(),
@@ -18,7 +31,7 @@ MOCK_ADDRESS = HackneyAddress(
             parent_uprn=faker.pyint(),
             blpu_start_date=faker.pyint(),
             blpu_end_date=faker.pyint(),
-            blpu_class=faker.pystr(),
+            blpu_class=faker.pystr()[0:4],
             blpu_last_update_date=faker.pyint(),
             usage_description=faker.pystr(),
             usage_primary=faker.pystr(),
@@ -49,21 +62,33 @@ MOCK_ADDRESS = HackneyAddress(
         )
 
 
-def test_get_addresses():
-    """Test that the use case returns the address domain objects from the gateway."""
+@pytest.fixture
+def create_test_data(connection_string, address):
+    # Create test data
+    ps_connection = psycopg2.connect(connection_string)
+    ps_cursor = ps_connection.cursor()
+
+    ade_dict = asdict(address)
+    query = "INSERT INTO hackney_address VALUES ("
+    for key, value in ade_dict.items():
+        query += f"'{str(value)[:8]}',"
+    query = query[:-1] + ");"
+    print(query)
+
+    ps_cursor.execute(query)
+    ps_connection.commit()
+
+
+def test_get_addresses(address, connection_string, create_test_data):
     # Arrange
-    mock_address_gateway = Mock(spec=IAddressGateway)
-    mock_address_gateway.get_addresses_for_postcode.return_value = [MOCK_ADDRESS]
+    _username, _password, _host, _port = ("postgres", "mypassword", "localhost", 5432)
+    address_gateway = AddressGateway(connection_string)
 
     # Act
-    use_case = GetAddressesUseCase(mock_address_gateway)
-    addresses = use_case.execute(MOCK_ADDRESS.postcode)
+    addresses = address_gateway.get_addresses_for_postcode(address.postcode)
 
     # Assert
     assert len(addresses) == 1
-    assert isinstance(addresses[0], HackneyAddressResponse)
-    assert addresses[0].postcode == MOCK_ADDRESS.postcode
-    assert addresses[0].uprn == MOCK_ADDRESS.uprn
-    mock_address_gateway.get_addresses_for_postcode.assert_called_once_with(MOCK_ADDRESS.postcode)
-
+    assert addresses[0].postcode == address.postcode
+    assert addresses[0].uprn == address.uprn
 

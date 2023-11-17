@@ -10,28 +10,26 @@ from src.entities.hackney_address_entity import Base as AddressBase
 
 class AddressGateway(IAddressGateway):
     """Gateway for accessing address database"""
-
     def __init__(self, connection_string: str):
         """
         :param connection_string: Connection string for address database
         """
-        self.connection_string = connection_string
+        self.session = self._session_for_address_db(connection_string)
 
     def get_addresses_for_postcode(self, postcode: str) -> list[HackneyAddress]:
         """Finds addresses with exactly this postcode"""
-        Session = self._session_for_address_db()
-        with Session.begin() as session:
+        with self.session.begin() as session:
             db_addresses = session.query(HackneyAddressEntity).filter(HackneyAddressEntity.postcode == postcode).all()
         domain_addresses = [address.to_domain() for address in db_addresses]
         return domain_addresses
 
-    def _session_for_address_db(self) -> sessionmaker[HA_Session]:
+    def _session_for_address_db(self, connection_string) -> sessionmaker[HA_Session]:
         """
         Commence session with address database
         :param expire_on_commit: Select to persist detached objects after transaction commit
         :return: SQLAlchemy sessionmaker - to be used as a context manager
         """
-        engine = create_engine("postgresql+psycopg2://", creator=lambda: psycopg2_connect(self.connection_string), echo=True)
+        engine = create_engine("postgresql+psycopg2://", creator=lambda: psycopg2_connect(connection_string), echo=True)
         AddressBase.metadata.create_all(bind=engine)
 
         Session = sessionmaker(bind=engine, expire_on_commit=False)
