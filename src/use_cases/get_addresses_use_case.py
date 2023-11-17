@@ -1,3 +1,4 @@
+import os
 from src.boundary.hackney_address_response import HackneyAddressResponse
 from src.gateways.interfaces.i_address_gateway import IAddressGateway
 
@@ -13,7 +14,11 @@ class GetAddressesUseCase:
 
 if __name__ == "__main__":
     from src.gateways.address_gateway import AddressGateway
-    _username, _password, _host, _port = ("postgres", "mypassword", "localhost", 5432)
+
+    _username = os.getenv("DB_USERNAME")
+    _password = os.getenv("DB_PASSWORD")
+    _host = os.getenv("DB_HOST")
+    _port = os.getenv("DB_PORT")
     connection_string = f"postgresql://{_username}:{_password}@{_host}:{_port}/postgres"
     address_gateway = AddressGateway(connection_string)
     use_case = GetAddressesUseCase(address_gateway)

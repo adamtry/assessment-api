@@ -28,3 +28,19 @@ services:
       - sample-database
     command:
       python -m flask run -h 0.0.0.0 -p 5000
+  
+  assessment-api-test:
+    image: assessment-api-test
+    build:
+      args:
+        - DB_USERNAME=postgres
+        - DB_PASSWORD=mypassword
+        - DB_HOST=sample-database
+        - DB_PORT=5432
+      context: .
+      dockerfile: tests/Dockerfile
+    links:
+      - sample-database
+    working_dir: /app
+    command:
+      python -m pytest

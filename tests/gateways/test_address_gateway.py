@@ -1,4 +1,5 @@
 from dataclasses import asdict
+import os
 
 import pytest
 
@@ -12,7 +13,10 @@ import psycopg2
 
 @pytest.fixture
 def connection_string():
-    _username, _password, _host, _port = ("postgres", "mypassword", "localhost", 5432)
+    _username = os.getenv("DB_USERNAME")
+    _password = os.getenv("DB_PASSWORD")
+    _host = os.getenv("DB_HOST")
+    _port = os.getenv("DB_PORT")
     return f"postgresql://{_username}:{_password}@{_host}:{_port}/postgres"
 
 
@@ -84,7 +88,6 @@ def create_test_data(connection_string, address):
 def test_get_addresses(address, connection_string, create_test_data):
     """Test that the use case returns the address domain objects from the gateway if found."""
     # Arrange
-    _username, _password, _host, _port = ("postgres", "mypassword", "localhost", 5432)
     address_gateway = AddressGateway(connection_string)
 
     # Act

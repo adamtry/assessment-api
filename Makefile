@@ -15,6 +15,9 @@ test:
 	# Requires local db to be running for gateway tests
 	${PYTHON_PATH}/python -m pytest
 
+test_docker:
+	docker compose build assessment-api-test && docker compose run assessment-api-test
+
 install:
 	python3 -m venv venv
 	${PYTHON_PATH}/pip install -r requirements.txt

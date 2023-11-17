@@ -28,11 +28,14 @@ Based on the [LBH Base API](https://github.com/LBHackney-IT/lbh-base-api)
 3. Run `make serve` to start the API
 4. Connect to the API at `localhost:5000`
 
+You can alternatively run the API with Docker with `make serve_docker` - check the console for the hostname to connect to
+
 ## Testing
 
 ### Run the tests
 1. Spin up the local database with `make local_db`
 2. Run the tests with `make test`
+3. You could instead run the tests with Docker with `make test_docker`
 
 ## Contacts
 
