@@ -1,0 +1,14 @@
+version: "3.2"
+
+services:
+  sample-database:
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mypassword
+#      - POSTGRES_DB=sampledb
+    image: sample-database
+    build:
+      context: .
+      dockerfile: database/Dockerfile
+    ports:
+      - 5433:5432
