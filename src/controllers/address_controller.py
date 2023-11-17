@@ -6,6 +6,7 @@ from flask import Blueprint
 
 from src.gateways.address_gateway import AddressGateway
 from src.use_cases.get_addresses_use_case import GetAddressesUseCase
+from src.use_cases.interfaces.i_get_addresses_use_case import IGetAddressesUseCase
 
 POSTCODE_REGEX = r"[A-Za-z][1-9]{1,2} [1-9][A-Za-z]{2}"
 
@@ -34,7 +35,7 @@ address_controller = Blueprint("address_controller", __name__)
 
 
 @address_controller.route("/addresses/<postcode>", methods=["GET"])
-def get_addresses_for_postcode(postcode: str, use_case=GET_ADDRESSES_USE_CASE):
+def get_addresses_for_postcode(postcode: str, use_case: IGetAddressesUseCase =GET_ADDRESSES_USE_CASE):
     postcode = unquote(postcode).strip()
     if not postcode:
         return "No postcode provided", 400
