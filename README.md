@@ -31,10 +31,8 @@ Based on the [LBH Base API](https://github.com/LBHackney-IT/lbh-base-api)
 ## Testing
 
 ### Run the tests
-
-```sh
-$ make test
-```
+1. Spin up the local database with `make local_db`
+2. Run the tests with `make test`
 
 ## Contacts
 
