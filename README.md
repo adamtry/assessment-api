@@ -7,6 +7,7 @@ Based on the [LBH Base API](https://github.com/LBHackney-IT/lbh-base-api)
 ## Stack
 
 - Flask as a web framework.
+- SQLAlchemy as an ORM.
 - PyTest as a test framework.
 
 ## Contributing
