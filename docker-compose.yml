@@ -5,10 +5,26 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=mypassword
-#      - POSTGRES_DB=sampledb
     image: sample-database
     build:
       context: .
       dockerfile: database/Dockerfile
     ports:
       - 5432:5432
+
+  assessment-api:
+    image: assessment-api
+    build:
+      args:
+        - DB_USERNAME=postgres
+        - DB_PASSWORD=mypassword
+        - DB_HOST=sample-database
+        - DB_PORT=5432
+      context: .
+      dockerfile: src/Dockerfile
+    ports:
+      - 5000:5000
+    links:
+      - sample-database
+    command:
+      python -m flask run -h 0.0.0.0 -p 5000

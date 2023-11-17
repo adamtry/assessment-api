@@ -5,6 +5,9 @@ PYTHON_PATH = venv/bin
 serve:
 	${PYTHON_PATH}/python -m flask run
 
+serve_docker:
+	docker-compose up assessment-api --build
+
 local_db:
 	docker-compose up sample-database
 

@@ -13,6 +13,11 @@ _username = os.getenv('DB_USERNAME') or "postgres"
 _password = os.getenv('DB_PASSWORD') or "mypassword"
 _host = os.getenv('DB_HOST') or "localhost"
 _port = os.getenv('DB_PORT') or 5432
+
+if not all([_username, _password, _host, _port]):
+    raise ValueError(f"Missing environment variables for database connection: "
+                     f"{_username}, {_password}, {_host}, {_port}")
+
 connection_string = f"postgresql://{_username}:{_password}@{_host}:{_port}/postgres"
 ADDRESS_GATEWAY = AddressGateway(connection_string)
 GET_ADDRESSES_USE_CASE = GetAddressesUseCase(ADDRESS_GATEWAY)
