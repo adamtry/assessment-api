@@ -13,7 +13,7 @@ local_db:
 
 test:
 	# Requires local db to be running for gateway tests
-	${PYTHON_PATH}/python -m pytest
+	DB_USERNAME='postgres' DB_PASSWORD='mypassword' DB_HOST='localhost' DB_PORT='5432' ${PYTHON_PATH}/python -m pytest
 
 test_docker:
 	docker compose build assessment-api-test && docker compose run assessment-api-test
