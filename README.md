@@ -17,10 +17,9 @@ Based on the [LBH Base API](https://github.com/LBHackney-IT/lbh-base-api)
 1. Install [Docker][docker-download].
 2. Install a recent version of [Python][python-install].
 3. Clone this repository.
-4. Create a venv with `python -m venv venv`
+4. Install dependencies in a venv with `make install`
 5. Activate the venv with `source venv/bin/activate` on MacOS/Linux or `venv\Scripts\activate` on Windows
-6. Install the dependencies with `pip install -r requirements.txt`
-7. Open it in your IDE
+6. Open the project in your IDE
 
 ### Running locally
 
