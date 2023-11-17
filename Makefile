@@ -9,7 +9,7 @@ serve_docker:
 	docker compose up assessment-api --build
 
 local_db:
-	docker-compose up sample-database
+	docker compose up sample-database
 
 test:
 	# Requires local db to be running for gateway tests
