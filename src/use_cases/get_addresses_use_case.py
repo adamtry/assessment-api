@@ -12,6 +12,7 @@ class GetAddressesUseCase:
         return [address.to_response() for address in addresses]
 
 
+# Example usage
 if __name__ == "__main__":
     from src.gateways.address_gateway import AddressGateway
 

@@ -45,6 +45,7 @@ class AddressGateway(IAddressGateway):
         return Session
 
 
+# Example usage
 if __name__ == "__main__":
     _username, _password, _host, _port = ("postgres", "mypassword", "localhost", 5432)
     connection_string = f"postgresql://{_username}:{_password}@{_host}:{_port}/postgres"
