@@ -67,3 +67,17 @@ def test_get_addresses():
     mock_address_gateway.get_addresses_for_postcode.assert_called_once_with(MOCK_ADDRESS.postcode)
 
 
+def test_get_addresses_no_results():
+    """Test that the use case successfully returns an empty list when no addresses are found."""
+    # Arrange
+    mock_address_gateway = Mock(spec=IAddressGateway)
+    mock_address_gateway.get_addresses_for_postcode.return_value = []
+
+    # Act
+    use_case = GetAddressesUseCase(mock_address_gateway)
+    addresses = use_case.execute(MOCK_ADDRESS.postcode)
+
+    # Assert
+    assert len(addresses) == 0
+    mock_address_gateway.get_addresses_for_postcode.assert_called_once_with(MOCK_ADDRESS.postcode)
+

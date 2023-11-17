@@ -2,6 +2,7 @@ from dataclasses import asdict
 
 import pytest
 
+from src.domain.hackney_address import HackneyAddress
 from src.entities import hackney_address_entity as sql_schema
 from faker import Faker
 
@@ -80,6 +81,7 @@ def create_test_data(connection_string, address):
 
 
 def test_get_addresses(address, connection_string, create_test_data):
+    """Test that the use case returns the address domain objects from the gateway if found."""
     # Arrange
     _username, _password, _host, _port = ("postgres", "mypassword", "localhost", 5432)
     address_gateway = AddressGateway(connection_string)
@@ -89,6 +91,20 @@ def test_get_addresses(address, connection_string, create_test_data):
 
     # Assert
     assert len(addresses) == 1
+    assert isinstance(addresses[0], HackneyAddress)
     assert addresses[0].postcode == address.postcode
     assert addresses[0].uprn == address.uprn
+
+
+def test_get_addresses_no_results(address, connection_string):
+    """Test that the gateway successfully returns an empty list when no addresses are found."""
+    # Arrange
+    _username, _password, _host, _port = ("postgres", "mypassword", "localhost", 5432)
+    address_gateway = AddressGateway(connection_string)
+
+    # Act
+    addresses = address_gateway.get_addresses_for_postcode(address.postcode)
+
+    # Assert
+    assert len(addresses) == 0
 
