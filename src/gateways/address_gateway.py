@@ -1,11 +1,11 @@
-from domain.hackney_address import HackneyAddress
-from gateways.interfaces.i_address_gateway import IAddressGateway
-from entities.hackney_address_entity import HackneyAddressEntity
+from src.domain.hackney_address import HackneyAddress
+from src.gateways.interfaces.i_address_gateway import IAddressGateway
+from src.entities.hackney_address_entity import HackneyAddressEntity
 
 from sqlalchemy import create_engine
 from psycopg2 import connect as psycopg2_connect
 from sqlalchemy.orm import sessionmaker, Session as HA_Session
-from entities.hackney_address_entity import Base as AddressBase
+from src.entities.hackney_address_entity import Base as AddressBase
 
 
 class AddressGateway(IAddressGateway):

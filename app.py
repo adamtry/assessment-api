@@ -1,8 +1,8 @@
 import re
-from flask import Flask, request
+from flask import Flask
 
-from gateways.address_gateway import AddressGateway
-from use_cases.get_addresses_use_case import GetAddressesUseCase
+from src.gateways.address_gateway import AddressGateway
+from src.use_cases.get_addresses_use_case import GetAddressesUseCase
 from urllib.parse import unquote
 
 

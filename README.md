@@ -21,11 +21,12 @@ Based on the [LBH Base API](https://github.com/LBHackney-IT/lbh-base-api)
 6. Install the dependencies with `pip install -r requirements.txt`
 7. Open it in your IDE
 
-
 ### Running locally
 
-1. Run `docker-compose up sample-database` to start the local database
-2. Run `python app.py` to start the API
+1. Open the `Makefile` and set the `PYTHON_PATH` depending on your OS (see comment in file)
+2. Run `make local_db` to start the local database
+3. Run `make serve` to start the API
+4. Connect to the API at `localhost:5000`
 
 ## Testing
 

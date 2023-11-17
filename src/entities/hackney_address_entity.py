@@ -3,7 +3,7 @@ from dataclasses import dataclass, asdict
 from sqlalchemy import String
 from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, Mapped, mapped_column
 
-from domain.hackney_address import HackneyAddress
+from src.domain.hackney_address import HackneyAddress
 
 
 class Base(MappedAsDataclass, DeclarativeBase):

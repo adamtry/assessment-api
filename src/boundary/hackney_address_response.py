@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class HackneyAddress:
+class HackneyAddressResponse:
     lpi_key: str
     lpi_logical_status: str
     lpi_start_date: int
@@ -41,6 +41,3 @@ class HackneyAddress:
     line2: str
     line3: str
     line4: str
-
-    def __repr__(self) -> str:
-        return f"HackneyAddress(uprn={self.uprn!r}, postcode={self.postcode!r}, line1={self.line1!r})"

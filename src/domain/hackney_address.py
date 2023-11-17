@@ -1,8 +1,11 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+
+from src.boundary.hackney_address_response import HackneyAddressResponse
 
 
 @dataclass
-class HackneyAddressResponse:
+class HackneyAddress:
+    lpi_key: str
     lpi_logical_status: str
     lpi_start_date: int
     lpi_end_date: int
@@ -40,3 +43,9 @@ class HackneyAddressResponse:
     line2: str
     line3: str
     line4: str
+
+    def __repr__(self) -> str:
+        return f"HackneyAddress(uprn={self.uprn!r}, postcode={self.postcode!r}, line1={self.line1!r})"
+
+    def to_response(self) -> HackneyAddressResponse:
+        return HackneyAddressResponse(**asdict(self))

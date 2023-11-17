@@ -1,16 +1,18 @@
-from gateways.interfaces.i_address_gateway import IAddressGateway
+from src.boundary.hackney_address_response import HackneyAddressResponse
+from src.gateways.interfaces.i_address_gateway import IAddressGateway
 
 
 class GetAddressesUseCase:
     def __init__(self, address_gateway: IAddressGateway):
         self.gateway = address_gateway
 
-    def execute(self, postcode: str):
-        return self.gateway.get_addresses_for_postcode(postcode)
+    def execute(self, postcode: str) -> list[HackneyAddressResponse]:
+        addresses = self.gateway.get_addresses_for_postcode(postcode)
+        return [address.to_response() for address in addresses]
 
 
 if __name__ == "__main__":
-    from gateways.address_gateway import AddressGateway
+    from src.gateways.address_gateway import AddressGateway
     _username, _password, _host, _port = ("postgres", "mypassword", "localhost", 5432)
     connection_string = f"postgresql://{_username}:{_password}@{_host}:{_port}/postgres"
     address_gateway = AddressGateway(connection_string)
