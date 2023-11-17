@@ -11,3 +11,7 @@ local_db:
 test:
 	# Requires local db to be running for gateway tests
 	${PYTHON_PATH}/python -m pytest
+
+install:
+	python3 -m venv venv
+	${PYTHON_PATH}/pip install -r requirements.txt
