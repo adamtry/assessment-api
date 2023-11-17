@@ -103,7 +103,6 @@ def test_get_addresses(address, connection_string, create_test_data):
 def test_get_addresses_no_results(address, connection_string):
     """Test that the gateway successfully returns an empty list when no addresses are found."""
     # Arrange
-    _username, _password, _host, _port = ("postgres", "mypassword", "localhost", 5432)
     address_gateway = AddressGateway(connection_string)
 
     # Act
